@@ -1,15 +1,23 @@
 package com.example.oky.dbtest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.DialogPreference;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +29,15 @@ public class MyActivity extends Activity {
     Button button;
     ArrayList<String> labelList;
     ArrayAdapter<String> adapter;
+    CreateProductHelper cph;
+    AlertDialog.Builder alertDialog;
 
 
     /* データベース名 */
     private final static String DB_NAME = "DBTest";
     /* データベースのバージョン */
     private final static int DB_VER = 1;
-    /* コンテキスト */
-    private Context mContext;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +48,8 @@ public class MyActivity extends Activity {
         setListeners();
         setAdapters();
 
-        CreateProductHelper cph = new CreateProductHelper(this,DB_NAME,null,DB_VER);
-
+        cph = new CreateProductHelper(this,DB_NAME,null,DB_VER);
+        alertDialog = new AlertDialog.Builder(MyActivity.this);
 
     }
 
@@ -55,7 +64,7 @@ public class MyActivity extends Activity {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.button:
-
+                        addData();
                         break;
                 }
 
@@ -64,10 +73,55 @@ public class MyActivity extends Activity {
 
     }
 
+    protected void addData(){
+
+        /*
+        参考サイト
+        http://gupuru.hatenablog.jp/entry/2014/03/28/225644
+        */
+
+        LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View layout = inflater.inflate(R.layout.dialoglayout,(ViewGroup)findViewById(R.id.alertdialog_layout));
+
+        alertDialog.setView(layout);
+        alertDialog.setTitle("たいとる");          //タイトル
+
+        alertDialog.setPositiveButton("ok",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("DEBUG","dialogのojボタンがタップされたよ");
+
+                EditText et = (EditText)layout.findViewById(R.id.editText);
+                EditText et2 = (EditText)layout.findViewById(R.id.editText3);
+
+                String title = et.getText().toString();
+                String content = et2.getText().toString();
+
+                Log.d("DEBUG","title\n"+title+"content\n"+content);
+
+                adapter.add(title);
+            }
+        });
+
+        alertDialog.setNegativeButton("no",new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d("DEBUG","dialogのnoボタンがタップされたよ");
+
+            }
+        });
+
+
+        // ダイアログの作成と表示
+        alertDialog.show();
+    }
+
+
+
     protected void setAdapters(){
         labelList = new ArrayList<String>();
 
-        for (int i=0;i <= 20;i++){
+        for (int i=0;i <= 10;i++){
             labelList.add("item" + i);
         }
 
