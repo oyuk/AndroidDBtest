@@ -27,8 +27,8 @@ public class MyActivity extends Activity {
 
     ListView listView;
     Button button;
-    ArrayList<String> labelList;
-    ArrayAdapter<String> adapter;
+    ArrayList<CustomListItem> labelList;
+    customeListItemAdapter adapter;
     CreateProductHelper cph;
     AlertDialog.Builder alertDialog;
 
@@ -99,7 +99,10 @@ public class MyActivity extends Activity {
 
                 Log.d("DEBUG","title\n"+title+"content\n"+content);
 
-                adapter.add(title);
+                CustomListItem item = new CustomListItem(title,content);
+                adapter.add(item);
+                adapter.notifyDataSetChanged();
+
             }
         });
 
@@ -116,16 +119,14 @@ public class MyActivity extends Activity {
         alertDialog.show();
     }
 
-
-
     protected void setAdapters(){
-        labelList = new ArrayList<String>();
+        labelList = new ArrayList<CustomListItem>();
 
-        for (int i=0;i <= 10;i++){
-            labelList.add("item" + i);
+        for (int i=0;i <= 20;i++){
+            labelList.add(new CustomListItem("test","test"));
         }
 
-        adapter = new ArrayAdapter<String>(MyActivity.this,R.layout.cell,labelList);
+        adapter = new customeListItemAdapter(MyActivity.this,labelList);
         listView.setAdapter(adapter);
     }
 
