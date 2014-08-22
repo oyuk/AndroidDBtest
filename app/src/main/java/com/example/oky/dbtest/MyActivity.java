@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.DialogPreference;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,6 +57,7 @@ public class MyActivity extends Activity {
     private void findViews(){
         listView = (ListView)findViewById(R.id.listView);
         button = (Button)findViewById(R.id.button);
+
     }
 
     protected void setListeners(){
@@ -89,31 +91,32 @@ public class MyActivity extends Activity {
         alertDialog.setPositiveButton("ok",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d("DEBUG","dialogのojボタンがタップされたよ");
+                Log.d("DEBUG", "dialogのojボタンがタップされたよ");
 
-                EditText et = (EditText)layout.findViewById(R.id.editText);
-                EditText et2 = (EditText)layout.findViewById(R.id.editText3);
+                EditText et = (EditText) layout.findViewById(R.id.editText);
+                EditText et2 = (EditText) layout.findViewById(R.id.editText3);
 
                 String title = et.getText().toString();
                 String content = et2.getText().toString();
 
-                Log.d("DEBUG","title\n"+title+"content\n"+content);
+                Log.d("DEBUG", "title\n" + title + "content\n" + content);
 
-                CustomListItem item = new CustomListItem(title,content);
-                adapter.add(item);
-                adapter.notifyDataSetChanged();
+                if (title.length() > 0 && content.length() > 0) {
+                    adapter.add(new CustomListItem(title, content));
+                    adapter.notifyDataSetChanged();
+                }
 
             }
         });
 
-        alertDialog.setNegativeButton("no",new DialogInterface.OnClickListener() {
+
+            alertDialog.setNegativeButton("no",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Log.d("DEBUG","dialogのnoボタンがタップされたよ");
 
             }
-        });
-
+            });
 
         // ダイアログの作成と表示
         alertDialog.show();
