@@ -1,16 +1,33 @@
 package com.example.oky.dbtest;
 
+import java.io.Serializable;
+
 /**
  * Created by oky on 2014/08/22.
  */
-public class CustomListItem {
+public class CustomListItem implements Serializable{
 
+    private long id;
     private String title;
-    private String description;
+    private String content;
 
-    public CustomListItem(String title, String description) {
+    public CustomListItem(int id,String title, String content) {
+        this.id = id;
         this.title = title;
-        this.description = description;
+        this.content = content;
+    }
+
+    public CustomListItem(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -21,12 +38,11 @@ public class CustomListItem {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getContent() {
+        return content;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setContent(String content) {
+        this.content = content;
     }
-
 }

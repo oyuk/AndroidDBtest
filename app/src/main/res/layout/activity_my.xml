@@ -18,15 +18,12 @@
         android:layout_alignParentEnd="true">
 
         <ListView
-            android:layout_width="match_parent"
-            android:layout_height="700dp"
-            android:id="@+id/listView" />
-
-        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-            android:layout_gravity="center_horizontal" />
+            android:layout_height="match_parent"
+            android:id="@+id/listView"
+            android:focusable="false"
+            android:fastScrollEnabled="false"
+            android:focusableInTouchMode="false" />
+
     </LinearLayout>
 </RelativeLayout>

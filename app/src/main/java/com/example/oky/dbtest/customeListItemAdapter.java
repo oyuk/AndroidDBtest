@@ -51,27 +51,28 @@ public class customeListItemAdapter extends BaseAdapter{
         count = items.size();
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View customItemView = null;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            customItemView = inflater.inflate(R.layout.cell, parent, false);
+            convertView = inflater.inflate(R.layout.cell, parent, false);
             Log.d(this.getClass().getName(), "created");
         } else {
-            customItemView = convertView;
             Log.d(this.getClass().getName(), "recycled");
         }
 
-        TextView titleTextView = (TextView)customItemView.findViewById(R.id.textView);
-        TextView descriptionTextView = (TextView)customItemView.findViewById(R.id.textView2);
+        TextView titleTextView = (TextView)convertView.findViewById(R.id.textView);
+        TextView descriptionTextView = (TextView)convertView.findViewById(R.id.textView2);
 
         CustomListItem item = items.get(position);
         titleTextView.setText(item.getTitle());
-        descriptionTextView.setText(item.getDescription());
+        descriptionTextView.setText(item.getContent());
 
-        return customItemView;
+        Log.d(this.getClass().getName(),"size"+convertView.getHeight());
+
+        return convertView;
 
     }
 }
