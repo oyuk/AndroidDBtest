@@ -45,6 +45,10 @@ public class customeListItemAdapter extends BaseAdapter{
         Log.d("DEBUG","item size"+items.size());
     }
 
+    public void remove(int index){
+        this.items.remove(index);
+    }
+
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
@@ -62,6 +66,7 @@ public class customeListItemAdapter extends BaseAdapter{
         } else {
             Log.d(this.getClass().getName(), "recycled");
         }
+
 
         TextView titleTextView = (TextView)convertView.findViewById(R.id.textView);
         TextView descriptionTextView = (TextView)convertView.findViewById(R.id.textView2);

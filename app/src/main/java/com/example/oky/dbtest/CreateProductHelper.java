@@ -115,15 +115,29 @@ public class CreateProductHelper extends SQLiteOpenHelper{
         String condition = "_id = '"+id+"'";
 
         db.beginTransaction();
-        db.update(CreateProductHelper.TABLE_NAME,value,condition,null);
+        db.update(TABLE_NAME,value,condition,null);
         db.setTransactionSuccessful();
         db.endTransaction();
 
     }
 
-    public void delete(){
+    public int delete(SQLiteDatabase db,CustomListItem item){
 
+        int let = -1;
+        String[] id = new String[]{Long.toString(item.getId())};
 
+        try{
+
+            db.beginTransaction();
+            let = db.delete(TABLE_NAME,"_id = ?",id);
+            db.setTransactionSuccessful();
+            db.endTransaction();
+
+        }catch (Exception e){
+            Log.e("ERROR", e.toString());
+        }
+
+        return let;
         
     }
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.DialogPreference;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -80,12 +81,38 @@ public class MyActivity extends Activity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(MyActivity.this,"tttte",Toast.LENGTH_SHORT).show();
 
-                return false;
+                ListView lv = (ListView) parent;
+                final CustomListItem item = (CustomListItem) lv.getItemAtPosition(position);
+
+                showDeleteConfirmationDialog(item, position);
+
+                return true;
             }
         });
 
+    }
+
+    private void showDeleteConfirmationDialog(final CustomListItem item, final int index) {
+
+        AlertDialog.Builder delete_dialog = new AlertDialog.Builder(this);
+        delete_dialog.setTitle("teset");
+        delete_dialog.setMessage("消しますか？");
+
+        delete_dialog.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteData(item,index);
+                    }
+                });
+        delete_dialog.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        delete_dialog.show();
     }
 
     protected void addData(){
@@ -141,6 +168,16 @@ public class MyActivity extends Activity {
 
         // ダイアログの作成と表示
         alertDialog.show();
+    }
+
+    protected void deleteData(CustomListItem item,int index){
+        db = cph.getWritableDatabase();
+
+        if(cph.delete(db,item) > -1){
+            adapter.remove(index);
+            adapter.notifyDataSetChanged();
+        }
+
     }
 
     protected void setAdapters(){
